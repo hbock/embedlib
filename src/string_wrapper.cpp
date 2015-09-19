@@ -150,3 +150,29 @@ char& string_wrapper::operator[](size_t pos)
 {
    return buffer[pos];
 }
+
+int string_wrapper::compare(const char* s) const
+{
+   size_t comparingSize = strlen(s);
+   int result = strncmp(buffer, s, std::min(comparingSize, currentStringLength));
+
+   if (0 == result) {
+      if (currentStringLength < comparingSize) {
+         result = -1;
+      } else if (currentStringLength > comparingSize){
+         result = 1;
+      }
+   }
+
+   return result;
+}
+
+bool operator==(const string_wrapper& lhs, const char* rhs)
+{
+   return (0 == lhs.compare(rhs));
+}
+
+bool operator==(const char* lhs, const string_wrapper& rhs)
+{
+   return (0 == rhs.compare(lhs));
+}
