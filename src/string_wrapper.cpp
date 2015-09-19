@@ -167,6 +167,22 @@ int string_wrapper::compare(const char* s) const
    return result;
 }
 
+int string_wrapper::compare(const string_wrapper& str) const
+{
+   size_t comparingSize = str.size();
+   int result = strncmp(buffer, str.buffer, std::min(comparingSize, currentStringLength));
+
+   if (0 == result) {
+      if (currentStringLength < comparingSize) {
+         result = -1;
+      } else if (currentStringLength > comparingSize){
+         result = 1;
+      }
+   }
+
+   return result;
+}
+
 bool operator==(const string_wrapper& lhs, const char* rhs)
 {
    return (0 == lhs.compare(rhs));
@@ -175,4 +191,9 @@ bool operator==(const string_wrapper& lhs, const char* rhs)
 bool operator==(const char* lhs, const string_wrapper& rhs)
 {
    return (0 == rhs.compare(lhs));
+}
+
+bool operator==(const string_wrapper& lhs, const string_wrapper& rhs)
+{
+   return (0 == lhs.compare(rhs.c_str()));
 }

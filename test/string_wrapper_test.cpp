@@ -12,12 +12,42 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, op_eq_eq_str_str)
+{
+    char buf[10];
+    char buf2[20];
+    string_wrapper s(buf);
+    string_wrapper t(buf2);
+
+    s = "FOO";
+    t = "BAR";
+
+    CHECK(false == (t == s));
+    CHECK(false == (s == t));
+
+    t = "FOO";
+    CHECK(true == (t == s));
+    CHECK(true == (s == t));
+
+    t = "FOOO";
+    CHECK(false == (t == s));
+    CHECK(false == (s == t));
+
+    s.clear();
+    CHECK(false == (t == s));
+    t.clear();
+    CHECK(true == (t == s));
+
+    // larger other buffer
+    t = "FOOBARFOOBARFOOBAR";
+    CHECK(false == (t == s));
+}
+
 TEST(StringWrapperTests, op_eq_eq_c_str_str)
 {
     char buf[10] = "FOO";
     string_wrapper s(buf, sizeof(buf));
 
-    // Value of the first character that does not match in compared string is greater than comparing.
     CHECK(false == ("BAR" == s));
     CHECK(false == ("FAR" == s));
     CHECK(false == ("FOA" == s));
@@ -42,7 +72,6 @@ TEST(StringWrapperTests, op_eq_eq_str_c_str)
     char buf[10] = "FOO";
     string_wrapper s(buf, sizeof(buf));
 
-    // Value of the first character that does not match in compared string is greater than comparing.
     CHECK(false == (s == "BAR"));
     CHECK(false == (s == "FAR"));
     CHECK(false == (s == "FOA"));
@@ -60,6 +89,39 @@ TEST(StringWrapperTests, op_eq_eq_str_c_str)
     CHECK(false == (s == "F"));
     CHECK(false == (s == "FO"));
     CHECK(false == (s == "FOO"));
+}
+
+TEST(StringWrapperTests, compare_str)
+{
+    char buf[10] = "FOO";
+    char buf2[10];
+    string_wrapper s(buf, sizeof(buf));
+    string_wrapper s2(buf2);
+
+    // Value of the first character that does not match in compared string is greater than comparing.
+    s2 = "BAR";
+    CHECK(s.compare(s2) > 0);
+    s2 = "FAR";
+    CHECK(s.compare(s2) > 0);
+    s2 = "FOA";
+    CHECK(s.compare(s2) > 0);
+    // Value of the first character that does not match in compared string is less than comparing.
+    s2 = "GOO";
+    CHECK(s.compare(s2) < 0);
+    s2 = "FPP";
+    CHECK(s.compare(s2) < 0);
+    s2 = "FOP";
+    CHECK(s.compare(s2) < 0);
+
+    s2 = "FOO";
+    CHECK(s.compare(s2) == 0);
+
+    // all characters match, but compared string is shorter.
+    s2 = "FOOO";
+    CHECK(s.compare(s2) < 0);
+    // all characters match, but compared string is longer.
+    s2 = "FO";
+    CHECK(s.compare(s2) > 0);
 }
 
 TEST(StringWrapperTests, compare_c_str)
