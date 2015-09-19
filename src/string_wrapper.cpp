@@ -209,6 +209,29 @@ size_t string_wrapper::find(const char* s, size_t pos) const
    return find_pos;
 }
 
+size_t string_wrapper::find(const string_wrapper& str, size_t pos) const
+{
+   return find(str.c_str(), pos);
+}
+
+size_t string_wrapper::rfind(char c, size_t pos) const
+{
+   size_t find_pos = npos;
+   if (pos >= currentStringLength) {
+      pos = (currentStringLength - 1);
+   }
+
+   size_t p = pos;
+   do {
+      if (c == buffer[p]) {
+         find_pos = p;
+         break;
+      }
+   } while(p--);
+
+   return find_pos;
+}
+
 // free function operators
 
 bool operator==(const string_wrapper& lhs, const char* rhs)
