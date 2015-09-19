@@ -195,5 +195,20 @@ bool operator==(const char* lhs, const string_wrapper& rhs)
 
 bool operator==(const string_wrapper& lhs, const string_wrapper& rhs)
 {
-   return (0 == lhs.compare(rhs.c_str()));
+   return (0 == lhs.compare(rhs));
+}
+
+bool operator!=(const string_wrapper& lhs, const char* rhs)
+{
+   return (0 != lhs.compare(rhs));
+}
+
+bool operator!=(const char* lhs, const string_wrapper& rhs)
+{
+   return (0 != rhs.compare(lhs));
+}
+
+bool operator!=(const string_wrapper& lhs, const string_wrapper& rhs)
+{
+   return (0 != lhs.compare(rhs));
 }

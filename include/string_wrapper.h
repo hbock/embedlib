@@ -98,6 +98,11 @@ bool operator==(const string_wrapper& lhs, const char* rhs);
 bool operator==(const char* lhs, const string_wrapper& rhs);
 bool operator==(const string_wrapper& lhs, const string_wrapper& rhs);
 
+bool operator!=(const string_wrapper& lhs, const char* rhs);
+bool operator!=(const char* lhs, const string_wrapper& rhs);
+bool operator!=(const string_wrapper& lhs, const string_wrapper& rhs);
+
+
 // string_wrapper, stack allocated
 template<size_t allocatedLength>
 class stack_string : public string_wrapper

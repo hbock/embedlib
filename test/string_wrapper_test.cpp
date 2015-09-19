@@ -12,6 +12,86 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, op_neq_str_str)
+{
+   char buf[10];
+   char buf2[20];
+   string_wrapper s(buf);
+   string_wrapper t(buf2);
+
+   s = "FOO";
+   t = "BAR";
+
+   CHECK(true == (t != s));
+   CHECK(true == (s != t));
+
+   t = "FOO";
+   CHECK(false == (t != s));
+   CHECK(false == (s != t));
+
+   t = "FOOO";
+   CHECK(true == (t != s));
+   CHECK(true == (s != t));
+
+   s.clear();
+   CHECK(true == (t != s));
+   t.clear();
+   CHECK(false == (t != s));
+
+   // larger other buffer
+   t = "FOOBARFOOBARFOOBAR";
+   CHECK(true == (t != s));
+}
+
+TEST(StringWrapperTests, op_neq_c_str_str)
+{
+    char buf[10] = "FOO";
+    string_wrapper s(buf, sizeof(buf));
+
+    CHECK(true == ("BAR" != s));
+    CHECK(true == ("FAR" != s));
+    CHECK(true == ("FOA" != s));
+    CHECK(true == ("GOO" != s));
+    CHECK(true == ("FPP" != s));
+    CHECK(true == ("FOP" != s));
+    CHECK(true == ("GOOOOOOO" != s));
+    CHECK(true == ("G" != s));
+    CHECK(true == ("" != s));
+
+    CHECK(false == ("FOO" != s));
+
+    s.clear();
+    CHECK(false ==  ("" != s));
+    CHECK(true == ("F" != s));
+    CHECK(true == ("FO" != s));
+    CHECK(true == ("FOO" != s));
+}
+
+TEST(StringWrapperTests, op_neq_str_c_str)
+{
+    char buf[10] = "FOO";
+    string_wrapper s(buf, sizeof(buf));
+
+    CHECK(true == (s != "BAR"));
+    CHECK(true == (s != "FAR"));
+    CHECK(true == (s != "FOA"));
+    CHECK(true == (s != "GOO"));
+    CHECK(true == (s != "FPP"));
+    CHECK(true == (s != "FOP"));
+    CHECK(true == (s != "GOOOOOOO"));
+    CHECK(true == (s != "G"));
+    CHECK(true == (s != ""));
+
+    CHECK(false == (s != "FOO"));
+
+    s.clear();
+    CHECK(false == (s != ""));
+    CHECK(true == (s != "F"));
+    CHECK(true == (s != "FO"));
+    CHECK(true == (s != "FOO"));
+}
+
+/////
 TEST(StringWrapperTests, op_eq_eq_str_str)
 {
     char buf[10];
