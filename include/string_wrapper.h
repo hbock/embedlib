@@ -46,6 +46,10 @@ public:
    int compare(const std::string& other) const;
    int compare(const string_wrapper& other) const;
 
+   // find
+   size_t find(char c, size_t pos = 0) const;
+   size_t find(const char *s, size_t pos = 0) const;
+
    void clear();
 
    // assignment

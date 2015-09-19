@@ -183,6 +183,34 @@ int string_wrapper::compare(const string_wrapper& str) const
    return result;
 }
 
+size_t string_wrapper::find(char c, size_t pos) const
+{
+   size_t find_pos = npos;
+   if (pos < currentStringLength) {
+      char* needle = strchr(&buffer[pos], c);
+      if (NULL != needle) {
+         find_pos = (needle - buffer);
+      }
+   }
+
+   return find_pos;
+}
+
+size_t string_wrapper::find(const char* s, size_t pos) const
+{
+   size_t find_pos = npos;
+   if (pos < currentStringLength) {
+      char* needle = strstr(&buffer[pos], s);
+      if (NULL != needle) {
+         find_pos = (needle - buffer);
+      }
+   }
+
+   return find_pos;
+}
+
+// free function operators
+
 bool operator==(const string_wrapper& lhs, const char* rhs)
 {
    return (0 == lhs.compare(rhs));
