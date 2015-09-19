@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(embedlib)
 
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wformat -O3")
+
 # Override for your CppUTest directory (must be pre-built)
 set(CPPUTEST_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cpputest/include)
 set(CPPUTEST_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cpputest/src/CppUTest)
