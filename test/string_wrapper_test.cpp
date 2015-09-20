@@ -3,6 +3,7 @@
 #include "string_wrapper.h"
 #include "stack_string.h"
 #include "heap_string.h"
+#include <string.h>
 
 TEST_GROUP(StringWrapperTests)
 {
@@ -14,6 +15,32 @@ TEST_GROUP(StringWrapperTests)
    {
    }
 };
+
+TEST(StringWrapperTests, copy)
+{
+   char buf[10];
+   string_wrapper s(buf);
+   s.assign("foobarbaz");
+
+   char testbuf[10];
+   testbuf[9] = 'A'; // junk
+   LONGS_EQUAL(9, s.copy(testbuf, 10));
+   // don't append terminating null.
+   LONGS_EQUAL('A', testbuf[9]);
+   LONGS_EQUAL(0, memcmp("foobarbaz", testbuf, 9));
+
+   s.assign("5643");
+   LONGS_EQUAL(4, s.copy(testbuf, 10));
+   LONGS_EQUAL(0, memcmp("5643", testbuf, 4));
+
+   testbuf[1] = 'A';
+   LONGS_EQUAL(1, s.copy(testbuf, 10, 3));
+   LONGS_EQUAL(0, memcmp("3A", testbuf, 2));
+
+   // pos overflow; no copy
+   LONGS_EQUAL(0, s.copy(testbuf, 10, 90));
+   LONGS_EQUAL(0, memcmp("3A", testbuf, 2));
+}
 
 TEST(StringWrapperTests, push_back)
 {

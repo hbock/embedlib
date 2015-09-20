@@ -91,6 +91,12 @@ public:
 
    void push_back(char c);
 
+   /** \brief Copy a sequence of characters from string into buffer \a s.
+    * \note This behaves slightly differently than in std::string; no exception
+    *       is thrown if pos >= length(); instead, no copy is performed and 0 is returned.
+    */
+   size_t copy(char* s, size_t len, size_t pos = 0) const;
+
    string_wrapper& format(const char* fmt, ...)
       // 'this' is argument 1...
       __attribute__((format (printf, 2, 3)));

@@ -289,6 +289,19 @@ void string_wrapper::push_back(char c)
    }
 }
 
+size_t string_wrapper::copy(char* s, size_t len, size_t pos) const
+{
+   size_t copyLen = 0;
+
+   if (pos < currentStringLength) {
+      copyLen = std::min(len, (currentStringLength - pos));
+      memcpy(s, &buffer[pos], copyLen);
+   }
+
+   return copyLen;
+}
+
+
 // free function operators
 
 bool operator==(const string_wrapper& lhs, const char* rhs)
