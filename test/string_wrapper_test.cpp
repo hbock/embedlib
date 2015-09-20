@@ -528,6 +528,23 @@ TEST(StringWrapperTests, append_c_str)
    STRCMP_EQUAL("FOOBARHAM", s.c_str());
 }
 
+TEST(StringWrapperTests, assign_str)
+{
+   char buf[10] = "FOO";
+   char buf2[20];
+   string_wrapper s(buf, sizeof(buf));
+   string_wrapper t(buf2);
+
+   LONGS_EQUAL(3, s.assign((t = "BAR")).length());
+   STRCMP_EQUAL("BAR", s.c_str());
+
+   LONGS_EQUAL(9, s.assign((t = "HAM SALAD")).length());
+   STRCMP_EQUAL("HAM SALAD", s.c_str());
+
+   // truncate
+   LONGS_EQUAL(9, s.assign((t = "SANDWICH OF HAM SALAD")).length());
+   STRCMP_EQUAL("SANDWICH ", s.c_str());
+}
 
 TEST(StringWrapperTests, assign_std_str)
 {

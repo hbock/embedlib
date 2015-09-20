@@ -111,6 +111,11 @@ string_wrapper& string_wrapper::assign(const std::string& str)
    return assign(str.c_str(), str.length());
 }
 
+string_wrapper& string_wrapper::assign(const string_wrapper& str)
+{
+   return assign(str.c_str(), str.length());
+}
+
 string_wrapper& string_wrapper::operator=(const char *s)
 {
    return assign(s);
