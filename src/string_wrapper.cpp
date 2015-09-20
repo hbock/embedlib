@@ -343,6 +343,27 @@ size_t string_wrapper::find_first_of(const char* s, size_t pos, size_t n) const
    return find_pos;
 }
 
+string_wrapper& string_wrapper::erase(size_t pos, size_t len)
+{
+   if (pos < currentStringLength) {
+      // fast case: just truncate
+      if (npos == len || currentStringLength <= (pos + len)) {
+         buffer[pos] = '\0';
+         currentStringLength = pos;
+      } else {
+         // slower case: move overlapping region that remains
+         // after erase into vacated region
+         size_t moveLen = currentStringLength - pos - 1;
+         memmove(&buffer[pos], &buffer[pos + len], moveLen);
+         // adjust length and truncate
+         currentStringLength -= len;
+         buffer[currentStringLength] = '\0';
+      }
+   }
+
+   return *this;
+}
+
 // free function operators
 
 bool operator==(const string_wrapper& lhs, const char* rhs)

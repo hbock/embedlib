@@ -75,6 +75,8 @@ public:
    bool empty() const;
    void clear();
 
+   string_wrapper& erase(size_t pos = 0, size_t len = npos);
+
    // assignment
    string_wrapper& assign(const char* s);              // c-str
    string_wrapper& assign(const char* s, size_t n);    // buffer

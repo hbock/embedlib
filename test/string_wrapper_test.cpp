@@ -16,6 +16,33 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, erase_range)
+{
+   char buf[10];
+   string_wrapper s(buf);
+   s.assign("flooferer");
+
+   // pos to end
+   LONGS_EQUAL(7, s.erase(7).length());
+   STRCMP_EQUAL("floofer", s.c_str());
+
+   // effective pos to end
+   LONGS_EQUAL(5, s.erase(5, 2).length());
+   STRCMP_EQUAL("floof", s.c_str());
+
+   // middle erase
+   LONGS_EQUAL(4, s.erase(3, 1).length());
+   STRCMP_EQUAL("flof", s.c_str());
+
+   // beginning erase
+   LONGS_EQUAL(3, s.erase(0, 1).length());
+   STRCMP_EQUAL("lof", s.c_str());
+
+   // pos overrun = no change
+   LONGS_EQUAL(3, s.erase(5, 1).length());
+   STRCMP_EQUAL("lof", s.c_str());
+}
+
 TEST(StringWrapperTests, find_first_of_str)
 {
    char buf[10];
