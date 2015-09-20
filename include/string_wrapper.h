@@ -35,6 +35,7 @@ public:
         bufferSize(n),
         currentStringLength(0)
    {
+      buffer[0] = '\0'; // clear
    }
 
    // retrieval

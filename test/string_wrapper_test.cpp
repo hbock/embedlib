@@ -677,7 +677,12 @@ TEST(StringWrapperTests, CreateStackBufferAutoSized)
 
 TEST(StringWrapperTests, CreateAutoSized)
 {
-   char buf[256];
+   char buf[10];
+   // initialize with 'garbage'
+   buf[0] = 'f';
+   buf[1] = 'u';
+   buf[2] = 'u';
+   // constructor should clear it.
    string_wrapper s(buf);
 
    LONGS_EQUAL(sizeof(buf), s.capacity());
