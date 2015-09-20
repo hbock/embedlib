@@ -11,6 +11,16 @@
 class string_wrapper
 {
 public:
+   // typedefs
+   typedef char value_type;
+   typedef char& reference;
+   typedef const char& const_reference;
+   typedef char* pointer;
+   typedef const char* const_pointer;
+   typedef ptrdiff_t difference_type;
+   typedef size_t size_type;
+   // missing: iterators; traits
+
    /** \brief Wrap pre-existing buffer \a wrappedBuffer of size \a wrappedBufferSize.
     * \note Initial string length is automatically determined by calling
     *       strlen() on \a wrappedBuffer.  Calling this constructor on an uninitialized
