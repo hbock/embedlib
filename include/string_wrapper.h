@@ -78,6 +78,8 @@ public:
    string_wrapper& operator+=(const std::string& str);
    string_wrapper& operator+=(const string_wrapper& str);
 
+   void push_back(char c);
+
    string_wrapper& format(const char* fmt, ...)
       // 'this' is argument 1...
       __attribute__((format (printf, 2, 3)));

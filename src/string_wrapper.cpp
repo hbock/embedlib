@@ -291,6 +291,15 @@ bool string_wrapper::empty() const
    return 0 == currentStringLength;
 }
 
+void string_wrapper::push_back(char c)
+{
+   if (currentStringLength < (bufferSize - 1)) {
+      buffer[currentStringLength] = c;
+      buffer[currentStringLength + 1] = '\0';
+      currentStringLength++;
+   }
+}
+
 // free function operators
 
 bool operator==(const string_wrapper& lhs, const char* rhs)

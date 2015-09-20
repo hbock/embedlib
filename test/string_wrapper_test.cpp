@@ -12,6 +12,31 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, push_back)
+{
+   char buf[6];
+   string_wrapper s(buf);
+
+   s.push_back('F');
+   LONGS_EQUAL(1, s.size());
+   STRCMP_EQUAL("F", s.c_str());
+
+   s.push_back('L');
+   s.push_back('O');
+   s.push_back('O');
+   s.push_back('F');
+   LONGS_EQUAL(5, s.size());
+   STRCMP_EQUAL("FLOOF", s.c_str());
+
+   // overrun attempt
+   s.push_back('L');
+   s.push_back('O');
+   s.push_back('O');
+   s.push_back('F');
+   LONGS_EQUAL(5, s.size());
+   STRCMP_EQUAL("FLOOF", s.c_str());
+}
+
 TEST(StringWrapperTests, empty)
 {
    char buf[10];
@@ -652,7 +677,7 @@ TEST(StringWrapperTests, CreateStackBufferAutoSized)
 
 TEST(StringWrapperTests, CreateAutoSized)
 {
-   char buf[256] = "";
+   char buf[256];
    string_wrapper s(buf);
 
    LONGS_EQUAL(sizeof(buf), s.capacity());
