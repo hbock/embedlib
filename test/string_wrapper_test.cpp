@@ -12,38 +12,54 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
-#if 0
+TEST(StringWrapperTests, rfind_std_str)
+{
+   char buf[10];
+   char buf2[10];
+   string_wrapper s(buf);
+   std::string t(buf2);
+   s.assign("floof");
+
+   LONGS_EQUAL(4, s.rfind((t = "f")));
+   LONGS_EQUAL(0, s.rfind((t = "fl")));
+   LONGS_EQUAL(1, s.rfind((t = "l")));
+   LONGS_EQUAL(3, s.rfind((t = "o")));
+   LONGS_EQUAL(2, s.rfind((t = "o"), 2));
+   LONGS_EQUAL(0, s.rfind((t = "f"), 3));
+   LONGS_EQUAL(2, s.rfind((t = "oo"), 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "of"), 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "floop")));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "loof"), 0));
+
+   // pos overrun
+   LONGS_EQUAL(4, s.rfind((t = "f"), 5));
+   LONGS_EQUAL(0, s.rfind((t = "fl"), 50));
+   LONGS_EQUAL(0, s.rfind((t = "floof"), 500));
+}
+
 TEST(StringWrapperTests, rfind_str)
 {
-   char buf[10], buf2[20];
+   char buf[10];
+   char buf2[10];
    string_wrapper s(buf);
    string_wrapper t(buf2);
    s.assign("floof");
 
-   t = "f";
-   LONGS_EQUAL(0, s.find(t));
-   t = "fl";
-   LONGS_EQUAL(0, s.find(t));
-   t = "l";
-   LONGS_EQUAL(1, s.find(t));
-   t = "o";
-   LONGS_EQUAL(3, s.find(t, 3));
-   t = "of";
-   LONGS_EQUAL(3, s.find(t, 0));
-   t = "f";
-   LONGS_EQUAL(4, s.find(t, 1));
+   LONGS_EQUAL(4, s.rfind((t = "f")));
+   LONGS_EQUAL(0, s.rfind((t = "fl")));
+   LONGS_EQUAL(1, s.rfind((t = "l")));
+   LONGS_EQUAL(3, s.rfind((t = "o")));
+   LONGS_EQUAL(2, s.rfind((t = "o"), 2));
+   LONGS_EQUAL(0, s.rfind((t = "f"), 3));
+   LONGS_EQUAL(2, s.rfind((t = "oo"), 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "of"), 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "floop")));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind((t = "loof"), 0));
 
-   t = "fl";
-   LONGS_EQUAL(string_wrapper::npos, s.find(t, 1));
-   t = "floop";
-   LONGS_EQUAL(string_wrapper::npos, s.find(t));
-   t = "oo";
-   LONGS_EQUAL(string_wrapper::npos, s.find(t, 3));
-   t = "k";
-   LONGS_EQUAL(string_wrapper::npos, s.find(t, 1));
-
-   // overrun
-   LONGS_EQUAL(string_wrapper::npos, s.find("f", 5));
+   // pos overrun
+   LONGS_EQUAL(4, s.rfind((t = "f"), 5));
+   LONGS_EQUAL(0, s.rfind((t = "fl"), 50));
+   LONGS_EQUAL(0, s.rfind((t = "floof"), 500));
 }
 
 TEST(StringWrapperTests, rfind_c_str)
@@ -52,23 +68,22 @@ TEST(StringWrapperTests, rfind_c_str)
    string_wrapper s(buf);
    s.assign("floof");
 
-   LONGS_EQUAL(0, s.find("f"));
-   LONGS_EQUAL(0, s.find("fl"));
-   LONGS_EQUAL(1, s.find("l"));
-   LONGS_EQUAL(3, s.find("o", 3));
-   LONGS_EQUAL(3, s.find("of", 0));
-   LONGS_EQUAL(4, s.find("f", 1));
-   LONGS_EQUAL(string_wrapper::npos, s.find("fl", 1));
-   LONGS_EQUAL(string_wrapper::npos, s.find("floop"));
-   LONGS_EQUAL(string_wrapper::npos, s.find("oo", 3));
-   LONGS_EQUAL(string_wrapper::npos, s.find("k", 1));
+   LONGS_EQUAL(4, s.rfind("f"));
+   LONGS_EQUAL(0, s.rfind("fl"));
+   LONGS_EQUAL(1, s.rfind("l"));
+   LONGS_EQUAL(3, s.rfind("o"));
+   LONGS_EQUAL(2, s.rfind("o", 2));
+   LONGS_EQUAL(0, s.rfind("f", 3));
+   LONGS_EQUAL(2, s.rfind("oo", 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind("of", 3));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind("floop"));
+   LONGS_EQUAL(string_wrapper::npos, s.rfind("loof", 0));
 
-   // overrun
-   LONGS_EQUAL(string_wrapper::npos, s.find("f", 5));
-   LONGS_EQUAL(string_wrapper::npos, s.find("fl", 50));
-   LONGS_EQUAL(string_wrapper::npos, s.find("floof", 500));
+   // pos overrun
+   LONGS_EQUAL(4, s.rfind("f", 5));
+   LONGS_EQUAL(0, s.rfind("fl", 50));
+   LONGS_EQUAL(0, s.rfind("floof", 500));
 }
-#endif
 
 TEST(StringWrapperTests, rfind_char)
 {
@@ -88,8 +103,28 @@ TEST(StringWrapperTests, rfind_char)
    LONGS_EQUAL(4, s.rfind('f', 500));
 }
 
+TEST(StringWrapperTests, find_std_str)
+{
+   char buf[10], buf2[20];
+   string_wrapper s(buf);
+   std::string t(buf2);
+   s.assign("floof");
 
-/////
+   LONGS_EQUAL(0, s.find((t = "f")));
+   LONGS_EQUAL(0, s.find((t = "fl")));
+   LONGS_EQUAL(1, s.find((t = "l")));
+   LONGS_EQUAL(3, s.find((t = "o"), 3));
+   LONGS_EQUAL(3, s.find((t = "of"), 0));
+   LONGS_EQUAL(4, s.find((t = "f"), 1));
+
+   LONGS_EQUAL(string_wrapper::npos, s.find((t = "fl"), 1));
+   LONGS_EQUAL(string_wrapper::npos, s.find((t = "floop")));
+   LONGS_EQUAL(string_wrapper::npos, s.find((t = "oo"), 3));
+   LONGS_EQUAL(string_wrapper::npos, s.find((t = "k"), 1));
+
+   // pos greater than s.size()
+   LONGS_EQUAL(string_wrapper::npos, s.find((t = "f"), 5));
+}
 
 TEST(StringWrapperTests, find_str)
 {

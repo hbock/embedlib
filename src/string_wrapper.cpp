@@ -214,6 +214,11 @@ size_t string_wrapper::find(const string_wrapper& str, size_t pos) const
    return find(str.c_str(), pos);
 }
 
+size_t string_wrapper::find(const std::string& str, size_t pos) const
+{
+   return find(str.c_str(), pos);
+}
+
 size_t string_wrapper::rfind(char c, size_t pos) const
 {
    size_t find_pos = npos;
@@ -231,6 +236,56 @@ size_t string_wrapper::rfind(char c, size_t pos) const
 
    return find_pos;
 }
+
+// common rfind() implementation.
+// FUTURE: Boyer-Moore would be great here if we are very large;
+// but it's a costly implementation for not much benefit in small strings.
+static size_t rfind(const char* haystack, size_t haystackLen,
+                    const char* needle, size_t needleLen,
+                    size_t endPos)
+{
+   size_t find_pos = string_wrapper::npos;
+
+   if (endPos >= haystackLen) {
+      endPos = (haystackLen - 1);
+   }
+
+   // don't even consider searching for needles larger than our
+   // own string starting at pos, which will never match.
+   if (needleLen <= (endPos + 1)) {
+      // start at earliest possible match...
+      size_t hsIndex = endPos - needleLen + 1;
+
+      // move backwards, trying to find a match.
+      do {
+         if (0 == memcmp(&haystack[hsIndex], needle, needleLen)) {
+            find_pos = hsIndex;
+            break;
+         }
+      } while (hsIndex--);
+   }
+
+   return find_pos;
+}
+
+size_t string_wrapper::rfind(const char* s, size_t pos) const
+{
+   return ::rfind(buffer, currentStringLength,
+                  s, strlen(s), pos);
+}
+
+size_t string_wrapper::rfind(const string_wrapper& str, size_t pos) const
+{
+   return ::rfind(buffer, currentStringLength,
+                  str.buffer, str.currentStringLength, pos);
+}
+
+size_t string_wrapper::rfind(const std::string& str, size_t pos) const
+{
+   return ::rfind(buffer, currentStringLength,
+                  str.c_str(), str.length(), pos);
+}
+
 
 // free function operators
 
