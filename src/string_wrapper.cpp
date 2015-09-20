@@ -286,6 +286,10 @@ size_t string_wrapper::rfind(const std::string& str, size_t pos) const
                   str.c_str(), str.length(), pos);
 }
 
+bool string_wrapper::empty() const
+{
+   return 0 == currentStringLength;
+}
 
 // free function operators
 

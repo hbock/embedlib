@@ -56,6 +56,7 @@ public:
    size_t rfind(const string_wrapper& str, size_t pos = npos) const;
    size_t rfind(const std::string& str, size_t pos = npos) const;
 
+   bool empty() const;
    void clear();
 
    // assignment

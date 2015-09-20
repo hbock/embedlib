@@ -12,11 +12,27 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, empty)
+{
+   char buf[10];
+   string_wrapper s(buf);
+
+   CHECK(true == s.empty());
+   s = "foo";
+   CHECK(false == s.empty());
+   s.clear();
+   CHECK(true == s.empty());
+   s.append("a");
+   CHECK(false == s.empty());
+   s = "";
+   CHECK(true == s.empty());
+}
+
 TEST(StringWrapperTests, rfind_std_str)
 {
    char buf[10];
    char buf2[10];
-   string_wrapper s(buf);
+      string_wrapper s(buf);
    std::string t(buf2);
    s.assign("floof");
 
