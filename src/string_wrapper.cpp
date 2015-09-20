@@ -301,6 +301,47 @@ size_t string_wrapper::copy(char* s, size_t len, size_t pos) const
    return copyLen;
 }
 
+size_t string_wrapper::find_first_of(char c, size_t pos) const
+{
+   return find(c, pos);
+}
+
+size_t string_wrapper::find_first_of(const char* s, size_t pos) const
+{
+   size_t find_pos = npos;
+
+   for (size_t i = pos; (npos == find_pos) && (i < currentStringLength); i++) {
+      for (size_t j = 0; s[j]; j++) {
+         if (s[j] == buffer[i]) {
+            find_pos = i;
+            break;
+         }
+      }
+   }
+
+   return find_pos;
+}
+
+size_t string_wrapper::find_first_of(const string_wrapper& s, size_t pos) const
+{
+   return find_first_of(s.c_str(), pos);
+}
+
+size_t string_wrapper::find_first_of(const char* s, size_t pos, size_t n) const
+{
+   size_t find_pos = npos;
+
+   for (size_t i = pos; (npos == find_pos) && (i < currentStringLength); i++) {
+      for (size_t j = 0; j < n; j++) {
+         if (s[j] == buffer[i]) {
+            find_pos = i;
+            break;
+         }
+      }
+   }
+
+   return find_pos;
+}
 
 // free function operators
 

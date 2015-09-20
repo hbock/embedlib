@@ -16,6 +16,72 @@ TEST_GROUP(StringWrapperTests)
    }
 };
 
+TEST(StringWrapperTests, find_first_of_str)
+{
+   char buf[10];
+   char buf2[10];
+   string_wrapper s(buf);
+   string_wrapper t(buf2);
+   s.assign("floofer");
+
+   LONGS_EQUAL(0, s.find_first_of((t = "f")));
+   LONGS_EQUAL(1, s.find_first_of((t = "l")));
+   LONGS_EQUAL(1, s.find_first_of((t = "ol")));
+   LONGS_EQUAL(5, s.find_first_of((t = "aeiu")));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of((t = "kzma")));
+
+   // overrun
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of((t = "f"), 10));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of((t = "f"), 50));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of((t = "f"), 500));
+}
+
+TEST(StringWrapperTests, find_first_of_c_str_buffer)
+{
+   char buf[10];
+   string_wrapper s(buf);
+   s.assign("floofer");
+
+   // ensure we don't consider null terminator in this variant
+   LONGS_EQUAL(0, s.find_first_of("akm\0f", 0, 5));
+}
+
+TEST(StringWrapperTests, find_first_of_c_str)
+{
+   char buf[10];
+   string_wrapper s(buf);
+   s.assign("floofer");
+
+   LONGS_EQUAL(0, s.find_first_of("f"));
+   LONGS_EQUAL(1, s.find_first_of("l"));
+   LONGS_EQUAL(1, s.find_first_of("ol"));
+   LONGS_EQUAL(5, s.find_first_of("aeiu"));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of("kzma"));
+
+   // overrun
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of("f", 10));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of("f", 50));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of("f", 500));
+}
+
+TEST(StringWrapperTests, find_first_of_char)
+{
+   char buf[10];
+   string_wrapper s(buf);
+   s.assign("floof");
+
+   LONGS_EQUAL(0, s.find_first_of('f'));
+   LONGS_EQUAL(1, s.find_first_of('l'));
+   LONGS_EQUAL(3, s.find_first_of('o', 3));
+   LONGS_EQUAL(4, s.find_first_of('f', 1));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of('k', 1));
+
+   // overrun
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of('f', 5));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of('f', 50));
+   LONGS_EQUAL(string_wrapper::npos, s.find_first_of('f', 500));
+}
+
 TEST(StringWrapperTests, copy)
 {
    char buf[10];

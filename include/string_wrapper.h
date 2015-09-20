@@ -67,6 +67,11 @@ public:
    size_t rfind(const string_wrapper& str, size_t pos = npos) const;
    size_t rfind(const std::string& str, size_t pos = npos) const;
 
+   size_t find_first_of(char c, size_t pos = 0) const;
+   size_t find_first_of(const char* s, size_t pos = 0) const;
+   size_t find_first_of(const char* s, size_t pos, size_t n) const;
+   size_t find_first_of(const string_wrapper& s, size_t pos = 0) const;
+
    bool empty() const;
    void clear();
 
