@@ -28,22 +28,6 @@ string_wrapper::string_wrapper(char* wrappedBuffer, size_t wrappedBufferSize, si
    buffer[initialLength] = '\0';
 }
 
-heap_string::heap_string(size_t n)
-   : string_wrapper(new char[n], n, 0)
-{
-}
-
-heap_string::heap_string(const heap_string& rhs)
-   : string_wrapper(new char[rhs.capacity()], rhs.capacity(), rhs.size())
-{
-   memcpy(buffer, rhs.c_str(), rhs.capacity());
-}
-
-heap_string::~heap_string()
-{
-   delete[] buffer;
-}
-
 size_t string_wrapper::size() const
 {
    return currentStringLength;

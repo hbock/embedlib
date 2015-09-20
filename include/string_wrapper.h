@@ -116,29 +116,4 @@ bool operator!=(const string_wrapper& lhs, const char* rhs);
 bool operator!=(const char* lhs, const string_wrapper& rhs);
 bool operator!=(const string_wrapper& lhs, const string_wrapper& rhs);
 
-
-// string_wrapper, stack allocated
-template<size_t allocatedLength>
-class stack_string : public string_wrapper
-{
-public:
-   stack_string()
-      : string_wrapper(stackBuffer, allocatedLength, 0)
-   {
-   }
-
-private:
-   char stackBuffer[allocatedLength];
-};
-
-// string_wrapper, heap allocated
-class heap_string : public string_wrapper
-{
-public:
-   heap_string(size_t n);
-   heap_string(const heap_string& rhs);
-   ~heap_string();
-};
-
-
 #endif /* STRING_WRAPPER_H_ */

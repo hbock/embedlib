@@ -1,5 +1,8 @@
 #include "CppUTest/TestHarness.h"
+
 #include "string_wrapper.h"
+#include "stack_string.h"
+#include "heap_string.h"
 
 TEST_GROUP(StringWrapperTests)
 {

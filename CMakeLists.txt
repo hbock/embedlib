@@ -10,7 +10,10 @@ set(CPPUTEST_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../cpputest/src/CppUTest)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${CPPUTEST_INCLUDE_DIR})
 link_directories(${CPPUTEST_LIB_DIR})
 
-set(SOURCE src/string_wrapper.cpp)
+set(SOURCE 
+	src/string_wrapper.cpp
+	src/heap_string.cpp
+	)
 
 add_library(embedlib SHARED ${SOURCE})
 
