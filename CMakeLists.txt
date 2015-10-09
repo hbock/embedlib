@@ -18,6 +18,11 @@ set(SOURCE
 add_library(embedlib SHARED ${SOURCE})
 
 # Unit tests
-set(TEST_SOURCE test/main.cpp test/string_wrapper_test.cpp)
+set(TEST_SOURCE 
+	test/main.cpp
+	test/string_wrapper_test.cpp
+	test/heap_string_test.cpp
+	test/stack_string_test.cpp)
+	
 add_executable(embedlib_u ${TEST_SOURCE})
 target_link_libraries(embedlib_u embedlib CppUTest)

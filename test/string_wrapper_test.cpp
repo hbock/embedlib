@@ -1,8 +1,6 @@
 #include "CppUTest/TestHarness.h"
 
 #include "string_wrapper.h"
-#include "stack_string.h"
-#include "heap_string.h"
 #include <string.h>
 
 TEST_GROUP(StringWrapperTests)
@@ -767,52 +765,6 @@ TEST(StringWrapperTests, format)
 
    LONGS_EQUAL(25, s.format("foo %s baz, ham %u salad ", "bar", 5u).length());
    STRCMP_EQUAL("foo bar baz, ham 5 salad ", s.c_str());
-}
-
-TEST(StringWrapperTests, CopyHeapBuffer)
-{
-   heap_string s(256);
-
-   LONGS_EQUAL(256, s.capacity());
-   LONGS_EQUAL(0, s.size());
-   LONGS_EQUAL(0, s.length());
-   STRCMP_EQUAL("", s.c_str());
-
-   LONGS_EQUAL(12, s.append("foo").format_append(" %s %u", "bar", 5643).size());
-   STRCMP_EQUAL("foo bar 5643", s.c_str());
-
-   {
-      heap_string s2(s);
-      LONGS_EQUAL(12, s2.size());
-      STRCMP_EQUAL("foo bar 5643", s2.c_str());
-   }
-}
-
-TEST(StringWrapperTests, CreateHeapBuffer)
-{
-   heap_string s(256);
-
-   LONGS_EQUAL(256, s.capacity());
-   LONGS_EQUAL(0, s.size());
-   LONGS_EQUAL(0, s.length());
-   STRCMP_EQUAL("", s.c_str());
-
-   LONGS_EQUAL(12, s.append("foo").format_append(" %s %u", "bar", 5643).size());
-   STRCMP_EQUAL("foo bar 5643", s.c_str());
-}
-
-
-TEST(StringWrapperTests, CreateStackBufferAutoSized)
-{
-   stack_string<256> s;
-
-   LONGS_EQUAL(256, s.capacity());
-   LONGS_EQUAL(0, s.size());
-   LONGS_EQUAL(0, s.length());
-   STRCMP_EQUAL("", s.c_str());
-
-   LONGS_EQUAL(12, s.append("foo").format_append(" %s %u", "bar", 5643).size());
-   STRCMP_EQUAL("foo bar 5643", s.c_str());
 }
 
 TEST(StringWrapperTests, CreateAutoSized)

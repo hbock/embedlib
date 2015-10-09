@@ -20,6 +20,21 @@ public:
    {
    }
 
+   // copy constructor, from arbitrary-sized other stack_string
+   template<size_t otherAllocatedLength>
+   stack_string(const stack_string<otherAllocatedLength>& other)
+      : string_wrapper(stackBuffer, allocatedLength, 0)
+   {
+      assign(other.c_str(), other.length());
+   }
+
+   // copy constructor, from string_wrapper
+   stack_string(const string_wrapper& other)
+      : string_wrapper(stackBuffer, allocatedLength, 0)
+   {
+      assign(other.c_str(), other.length());
+   }
+
 private:
    char stackBuffer[allocatedLength];
 };
