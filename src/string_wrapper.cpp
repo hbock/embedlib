@@ -1,8 +1,5 @@
-/*
- * string_wrapper.cpp
- *
- *  Created on: Sep 18, 2015
- *      Author: swgroup
+/* This is free and unencumbered software released into the public domain.
+ * Please see COPYING for more details.
  */
 
 #include "string_wrapper.h"
