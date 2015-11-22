@@ -1,10 +1,6 @@
-/*
- * stack_string.h
- *
- *  Created on: Sep 20, 2015
- *      Author: hbock
+/* This is free and unencumbered software released into the public domain.
+ * Please see COPYING for more details.
  */
-
 #ifndef STACK_STRING_H_
 #define STACK_STRING_H_
 

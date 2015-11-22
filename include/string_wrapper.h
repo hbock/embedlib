@@ -1,3 +1,6 @@
+/* This is free and unencumbered software released into the public domain.
+ * Please see COPYING for more details.
+ */
 #ifndef STRING_WRAPPER_H_
 #define STRING_WRAPPER_H_
 
